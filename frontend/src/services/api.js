@@ -2,7 +2,7 @@
  * API client service for Business Card Parser backend.
  */
 
-const API_BASE = '/api/cards';
+const API_BASE = 'http://localhost:3000/api/cards';
 
 /**
  * Upload card image files (1 or 2) for OCR/LLM parsing.
