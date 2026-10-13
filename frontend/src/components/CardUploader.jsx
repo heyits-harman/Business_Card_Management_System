@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react';
-import { Upload, X, ArrowRight, Loader2, ImagePlus } from 'lucide-react';
+import { Upload, X, ArrowRight, Loader2, ImagePlus, Camera } from 'lucide-react';
 
 export default function CardUploader({ onScan, isScanning }) {
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef(null);
+  const cameraInputRef = useRef(null); // Ref for direct camera capture
 
   const handleFiles = (incomingFiles) => {
     const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'];
@@ -91,38 +92,61 @@ export default function CardUploader({ onScan, isScanning }) {
 
       {/* Drag & Drop Zone */}
       {files.length < 2 && (
-        <div
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-          onClick={() => fileInputRef.current?.click()}
-          className={`border-2 border-dashed rounded-md p-10 text-center cursor-pointer transition-all ${
-            dragActive
-              ? 'border-obsidian bg-hairline/30'
-              : 'border-hairline hover:border-graphite bg-paper'
-          }`}
-        >
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleInputChange}
-            multiple
-            accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
-            className="hidden"
-          />
-          <div className="flex flex-col items-center gap-3">
-            <div className="p-3 rounded-full bg-pure border border-hairline shadow-subtle-2">
-              <Upload className="w-5 h-5 text-obsidian" />
-            </div>
-            <div>
-              <p className="text-sm font-sans font-medium text-obsidian">
-                Drag and drop card images here, or click to browse
-              </p>
-              <p className="text-xs text-stone font-sans mt-1">
-                Upload Front & Back (JPG, PNG, HEIC, WEBP)
-              </p>
+        <div className="space-y-3">
+          <div
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            onClick={() => fileInputRef.current?.click()}
+            className={`border-2 border-dashed rounded-md p-10 text-center cursor-pointer transition-all ${
+              dragActive
+                ? 'border-obsidian bg-hairline/30'
+                : 'border-hairline hover:border-graphite bg-paper'
+            }`}
+          >
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleInputChange}
+              multiple
+              accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
+              className="hidden"
+            />
+            <div className="flex flex-col items-center gap-3">
+              <div className="p-3 rounded-full bg-pure border border-hairline shadow-subtle-2">
+                <Upload className="w-5 h-5 text-obsidian" />
+              </div>
+              <div>
+                <p className="text-sm font-sans font-medium text-obsidian">
+                  Drag and drop card images here, or click to browse
+                </p>
+                <p className="text-xs text-stone font-sans mt-1">
+                  Upload Front & Back (JPG, PNG, HEIC, WEBP)
+                </p>
+              </div>
             </div>
           </div>
+
+          {/* Hidden Direct Camera Input */}
+          <input
+            type="file"
+            ref={cameraInputRef}
+            onChange={handleInputChange}
+            accept="image/*"
+            capture="environment"
+            className="hidden"
+          />
+
+          {/* Live Mobile Camera Capture Button */}
+          <button
+            type="button"
+            disabled={isScanning}
+            onClick={() => cameraInputRef.current?.click()}
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-md border border-hairline bg-paper hover:bg-pure text-obsidian font-sans text-xs font-medium shadow-subtle-2 hover:border-graphite transition-all disabled:opacity-50"
+          >
+            <Camera className="w-4 h-4 text-obsidian" />
+            <span>Capture Live Image</span>
+          </button>
         </div>
       )}
 
