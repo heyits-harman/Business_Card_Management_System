@@ -1,8 +1,9 @@
+require('dotenv').config();
 /**
  * API client service for Business Card Parser backend.
  */
 
-const API_BASE = 'http://localhost:3000/api/cards';
+const API_BASE = 'https://uninvited-prayer-disk.ngrok-free.dev/api/cards';
 
 /**
  * Upload card image files (1 or 2) for OCR/LLM parsing.
