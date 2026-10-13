@@ -1,4 +1,3 @@
-require('dotenv').config();
 /**
  * API client service for Business Card Parser backend.
  */
