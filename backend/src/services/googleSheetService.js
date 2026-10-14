@@ -108,6 +108,14 @@ class SheetService {
     const { contact, processed_by, submitted_by, assigned_to } = cardPayload;
     const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
+    // Helper function to force Google Sheets to treat phone numbers as plain text
+    const formatPhoneForSheet = (phoneStr) => {
+      if (!phoneStr) return 'N/A';
+      
+      // If string starts with '+', prefix with a single quote to force string type in Sheets
+      return phoneStr.startsWith('+') ? `'${phoneStr}` : phoneStr;
+    };
+
     // Order of columns in Google Sheet
     const rowValues = [
       timestamp,
@@ -116,7 +124,7 @@ class SheetService {
       contact.full_name || 'N/A',
       contact.company_name || 'N/A',
       contact.email || 'N/A',
-      contact.phone || 'N/A',
+      formatPhoneForSheet(contact.phone),
       contact.website || 'N/A',
       contact.address || 'N/A',
     ];

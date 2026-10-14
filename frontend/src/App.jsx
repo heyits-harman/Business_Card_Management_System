@@ -16,6 +16,7 @@ export default function App() {
   const [duplicateError, setDuplicateError] = useState(null);
   const [isScanning, setIsScanning] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [resetSignal, setResetSignal] = useState(0); // Signal to reset form & image states
   const [logs, setLogs] = useState([
     { text: 'System ready. Select business card images to process.', type: 'info', timestamp: new Date().toLocaleTimeString() }
   ]);
@@ -89,6 +90,16 @@ export default function App() {
         addLog(`Record saved to database. Assigned to: ${payload.assigned_to || 'Unassigned'}`, 'success');
         showToast('Lead successfully saved and assigned!', 'success');
         setSavedRecords((prev) => [payload, ...prev]);
+
+        // Clear parsed form state & trigger card image uploader reset
+        setExtractedData(null);
+        setProcessedBy(null);
+        setResetSignal((prev) => prev + 1);
+
+        // Scroll back to top uploader section smoothly for next card
+        setTimeout(() => {
+          document.getElementById('uploader')?.scrollIntoView({ behavior: 'smooth' });
+        }, 150);
       } else {
         throw new Error(response.error || 'Save failed');
       }
@@ -134,7 +145,11 @@ export default function App() {
         {/* Upper Grid: Ingestion & Live Execution Logs */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-7">
-            <CardUploader onScan={handleScan} isScanning={isScanning} />
+            <CardUploader 
+              onScan={handleScan} 
+              isScanning={isScanning} 
+              resetSignal={resetSignal}
+            />
           </div>
           
           <div className="lg:col-span-5">

@@ -1,12 +1,20 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Upload, X, ArrowRight, Loader2, ImagePlus, Camera } from 'lucide-react';
 
-export default function CardUploader({ onScan, isScanning }) {
+export default function CardUploader({ onScan, isScanning, resetSignal }) {
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef(null);
-  const cameraInputRef = useRef(null); // Ref for direct camera capture
+  const cameraInputRef = useRef(null);
+
+  // Clear uploaded files & image preview blobs upon submission reset
+  useEffect(() => {
+    if (resetSignal) {
+      setFiles([]);
+      setPreviews([]);
+    }
+  }, [resetSignal]);
 
   const handleFiles = (incomingFiles) => {
     const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'];

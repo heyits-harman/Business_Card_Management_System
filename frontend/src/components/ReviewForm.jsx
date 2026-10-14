@@ -54,6 +54,7 @@ export default function ReviewForm({ initialData, processedBy, scanDuplicateInfo
     loadUsers();
   }, []);
 
+  // Sync state with incoming initialData, or clear form if initialData becomes null (e.g. after save)
   useEffect(() => {
     if (initialData?.contact) {
       setFormData({
@@ -64,6 +65,19 @@ export default function ReviewForm({ initialData, processedBy, scanDuplicateInfo
         website: initialData.contact.website || '',
         address: initialData.contact.address || '',
       });
+    } else {
+      // Clear fields when reset by parent app
+      setFormData({
+        full_name: '',
+        company_name: '',
+        email: '',
+        phone: '',
+        website: '',
+        address: '',
+      });
+      setSubmittedBy('');
+      setAssignedTo('');
+      setValidationError('');
     }
   }, [initialData]);
 
@@ -80,14 +94,9 @@ export default function ReviewForm({ initialData, processedBy, scanDuplicateInfo
 
   const handleSubmit = (e, forceSubmit = false) => {
     if (e) e.preventDefault();
-    // if (!submittedBy.trim()) {
-    //   setValidationError('Please enter your name in "Submitted By".');
-    //   return;
-    // }
     setValidationError('');
     onSave({
       processed_by: processedBy || 'User_Verified',
-      // submitted_by: submittedBy.trim(), <-------- change to this in production
       submitted_by: 'Harman', 
       assigned_to: assignedTo || 'Unassigned',
       contact: formData,
@@ -367,4 +376,3 @@ export default function ReviewForm({ initialData, processedBy, scanDuplicateInfo
     </div>
   );
 }
-
