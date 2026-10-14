@@ -15,7 +15,8 @@ import {
   AlertTriangle, 
   Search, 
   ChevronDown,
-  ShieldAlert
+  ShieldAlert,
+  Tag
 } from 'lucide-react';
 
 export default function ReviewForm({ initialData, processedBy, scanDuplicateInfo, onSave, isSaving, duplicateError }) {
@@ -64,6 +65,7 @@ export default function ReviewForm({ initialData, processedBy, scanDuplicateInfo
         phone: initialData.contact.phone || '',
         website: initialData.contact.website || '',
         address: initialData.contact.address || '',
+        keywords_slogans: initialData.contact.keywords_slogans || '',
       });
     } else {
       // Clear fields when reset by parent app
@@ -74,6 +76,7 @@ export default function ReviewForm({ initialData, processedBy, scanDuplicateInfo
         phone: '',
         website: '',
         address: '',
+        keywords_slogans: '',
       });
       setSubmittedBy('');
       setAssignedTo('');
@@ -116,6 +119,7 @@ export default function ReviewForm({ initialData, processedBy, scanDuplicateInfo
         phone: initialData.contact.phone || '',
         website: initialData.contact.website || '',
         address: initialData.contact.address || '',
+        keywords_slogans: initialData.contact.keywords_slogans || '',
       });
     } else {
       setFormData({
@@ -125,6 +129,7 @@ export default function ReviewForm({ initialData, processedBy, scanDuplicateInfo
         phone: '',
         website: '',
         address: '',
+        keywords_slogans: ''
       });
     }
   };
@@ -344,6 +349,22 @@ export default function ReviewForm({ initialData, processedBy, scanDuplicateInfo
               className="w-full px-3.5 py-2.5 text-xs font-sans bg-paper border border-hairline rounded-md text-obsidian focus:outline-none focus:border-obsidian focus:bg-pure transition-colors"
             />
           </div>
+
+          {/* Business Slogan / Keywords */}
+        <div className="space-y-1.5 md:col-span-2">
+          <label className="flex items-center gap-1.5 text-xs font-mono font-medium text-obsidian uppercase tracking-wider">
+            <Tag className="w-3.5 h-3.5 text-slate" />
+            <span>Business Slogan / Products & Services</span>
+          </label>
+          <input
+            type="text"
+            name="keywords_slogans"
+            value={formData.keywords_slogans || ''}
+            onChange={handleChange}
+            placeholder="e.g. Manufacturer of Terry Towels & Home Furnishings"
+            className="w-full px-3.5 py-2.5 text-xs font-sans bg-paper border border-hairline rounded-md text-obsidian focus:outline-none focus:border-obsidian focus:bg-pure transition-colors"
+          />
+        </div>
 
         </div>
 

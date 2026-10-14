@@ -38,6 +38,7 @@ class LLMService {
       Important: 
       - If multiple phone numbers are present (e.g., Mobile, Office, WhatsApp), collect ALL of them and join them with commas into the "phone" string field.
       - If multiple emails are present, join them with commas as well.
+      - Extract any tagline, slogan, product list, or industry keywords listed on the card to know what the business delas in for the context into "keywords_slogans" (e.g., "Terry Towels, Home Textiles, Bed Linen")
       
       Extract all contact details into this exact JSON format:
       {
@@ -47,7 +48,8 @@ class LLMService {
           "email": string or null,
           "phone": string or null,
           "website": string or null,
-          "address": string or null
+          "address": string or null,
+          "keywords_slogans": string or null
         }
       }
       

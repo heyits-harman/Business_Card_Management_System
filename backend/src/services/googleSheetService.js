@@ -127,6 +127,7 @@ class SheetService {
       formatPhoneForSheet(contact.phone),
       contact.website || 'N/A',
       contact.address || 'N/A',
+      contact.keywords_slogans || 'N/A'
     ];
 
     const response = await this.sheets.spreadsheets.values.append({

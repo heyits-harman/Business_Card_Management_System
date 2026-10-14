@@ -122,6 +122,18 @@ class ParserService {
       }
     }
 
+    // Extract unclassified tagline / product lines
+    const unusedLines = cleanLines.filter(line => {
+      const isName = fullName && line.includes(fullName);
+      const isCompany = companyName && line.includes(companyName);
+      const isAddr = address && address.includes(line);
+      const isContact = this.isContactLine(line) || /\d/.test(line);
+
+      return !isName && !isCompany && !isAddr && !isContact;
+    });
+
+    const keywordsSlogans = unusedLines.length > 0 ? unusedLines.slice(0, 2).join(' | ') : null;
+
     return {
       contact: {
         full_name: fullName,
@@ -129,7 +141,8 @@ class ParserService {
         email: regexData.email,
         phone: regexData.phone,
         website: regexData.website,
-        address: address
+        address: address,
+        keywords_slogans: keywordsSlogans
       },
       meta: {
         raw_text: mergedText
