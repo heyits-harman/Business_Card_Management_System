@@ -35,6 +35,12 @@ class LLMService {
     const promptText = `
       You are an expert business card OCR system.
       Examine the provided business card image(s) (front/back).
+
+      Language & Translation Rules:
+      - If the business card is written in Hindi, Marathi, Gujarati, or any other regional language, TRANSLATE the company name, address, and slogans into English.
+      - TRANSLITERATE personal names into Latin script (e.g., "किशोरी ढाके" -> "Kishor Dhake").
+      - Convert regional numeral digits (e.g., ९८२३४९४०२९) into standard Arabic digits (e.g., 9823494029).
+
       Important: 
       - If multiple phone numbers are present (e.g., Mobile, Office, WhatsApp), collect ALL of them and join them with commas into the "phone" string field.
       - If multiple emails are present, join them with commas as well.
