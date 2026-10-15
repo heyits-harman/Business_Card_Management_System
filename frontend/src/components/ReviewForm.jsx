@@ -293,7 +293,7 @@ export default function ReviewForm({ initialData, processedBy, scanDuplicateInfo
               <span>Email Address</span>
             </label>
             <input
-              type="email"
+              type="text"
               name="email"
               value={formData.email}
               onChange={handleChange}
